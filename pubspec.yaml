@@ -1,0 +1,35 @@
+name: riders
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  flare_flutter: ^1.8.1
+  flutter_icons: ^1.0.0+1
+  shifting_tabbar: ^0.3.1
+  flutter_full_pdf_viewer: ^1.0.6
+  path_provider: ^1.5.1
+  provider: ^3.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+  assets:
+      - assets/signals.json
+      - assets/background.png
+      - assets/Teddy.flr
+      - assets/malayalam.png
+      - assets/english.png
+      - assets/signal/
+      - assets/pdf/
+      - assets/json/
