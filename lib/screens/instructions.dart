@@ -7,7 +7,7 @@ import 'package:riders/components/instruction.dart';
 
 class Instructions extends StatefulWidget {
   final String language;
-  const Instructions({Key key,@required this.language}) : super(key: key);
+  const Instructions({Key key, @required this.language}) : super(key: key);
 
   @override
   _InstructionsState createState() => _InstructionsState();
@@ -36,33 +36,13 @@ class _InstructionsState extends State<Instructions>
       children: <Widget>[
         Stack(
           children: <Widget>[
-            // PageView(
-            //   controller: tabController,
-            //   physics: NeverScrollableScrollPhysics(),
-            //   children: <Widget>[
-            // Container(
-            //     width: MediaQuery.of(context).size.width,
-            //     height: MediaQuery.of(context).size.height,
-            //     child: FlareActor(
-            //       'assets/eight.flr',
-            //       fit: BoxFit.fitHeight,
-            //       animation: 'eight',
-            //     )),
-            // Container(
-            //     width: MediaQuery.of(context).size.width,
-            //     height: MediaQuery.of(context).size.height,
-            //     child: FlareActor(
-            //       'assets/h.flr',
-            //       fit: BoxFit.cover,
-            //       animation: 'h',
-            //     ))
-            //   ],
-            // ),
             AnimatedCrossFade(
               sizeCurve: Curves.fastLinearToSlowEaseIn,
-              crossFadeState: _selectedAnimation == 1?CrossFadeState.showFirst:CrossFadeState.showSecond,
+              crossFadeState: _selectedAnimation == 1
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
               duration: Duration(milliseconds: 800),
-              firstChild: Container(
+              secondChild: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   child: FlareActor(
@@ -70,7 +50,7 @@ class _InstructionsState extends State<Instructions>
                     fit: BoxFit.fitHeight,
                     animation: 'eight',
                   )),
-              secondChild: Container(
+              firstChild: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
                   child: FlareActor(
@@ -87,9 +67,7 @@ class _InstructionsState extends State<Instructions>
                 selectedColor: Colors.deepPurple[500],
                 unselectedColor: Colors.deepPurple[100],
                 pressedColor: Colors.deepPurple[300],
-                children: {
-                  1: Text('  Two Wheeler  '), 
-                  2: Text('  LMV  ')},
+                children: {1: Text('   LMV   '), 2: Text('  2 Wheeler  ')},
                 onValueChanged: (value) {
                   setState(() {
                     _selectedAnimation = value;
@@ -106,8 +84,10 @@ class _InstructionsState extends State<Instructions>
               top: 36,
               right: 0,
               child: GestureDetector(
-                onTap: (){
-                  _pageController.animateToPage(2,curve: Curves.easeInCubic,duration: Duration(milliseconds: 400));
+                onTap: () {
+                  _pageController.animateToPage(2,
+                      curve: Curves.easeInCubic,
+                      duration: Duration(milliseconds: 400));
                 },
                 child: Container(
                   padding: EdgeInsets.all(6),
@@ -141,7 +121,16 @@ class _InstructionsState extends State<Instructions>
           ],
         ),
         Container(
-          child: Instrunction(language:widget.language,category: _selectedAnimation,),
+          child: WillPopScope(
+            child: Instrunction(
+              language: widget.language,
+              category: _selectedAnimation,
+            ),
+            onWillPop: () {
+              _pageController.animateToPage(0,curve:Curves.linearToEaseOut,duration:Duration(milliseconds: 300));
+              return Future.value(false);
+            },
+          ),
         )
       ],
     );

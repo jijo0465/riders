@@ -631,7 +631,7 @@
     },
     {
         "qid": 71,
-        "question": "The Driver of a vehicle extends his right arm with the palm downward and moves the arm upward and downward several times.You will understandthat",
+        "question": "The Driver of a vehicle extends his right arm with the palm downward and moves the arm upward and downward several times.You will understand that",
         "option1": "He is turning to the left",
         "option2": "He is slowing down the vehicle",
         "option3": "Allowing to overtake",
@@ -1311,7 +1311,7 @@
         "option2": "Intends to turn right",
         "option3": "Request to stop the vehicle from opposite direction",
         "correct_answer": 2,
-        "image": ""
+        "image": "signal/img63.png"
     },
     {
         "qid": 147,
@@ -1329,7 +1329,7 @@
         "option2": "Intends to turn right",
         "option3": "Request to stop all other vehicles ",
         "correct_answer": 1,
-        "image": ""
+        "image": "signal/img64.png"
     },
     {
         "qid": 149,
@@ -1347,7 +1347,7 @@
         "option2": "Request to stop the vehicle coming from opposite direction",
         "option3": "Intends to slow down the vehicle ",
         "correct_answer": 3,
-        "image": ""
+        "image": "signal/img65.png"
     },
     {
         "qid": 151,
@@ -1365,7 +1365,7 @@
         "option2": "Intends to stop the vehicle",
         "option3": "Intends to turn right",
         "correct_answer": 2,
-        "image": ""
+        "image": "signal/img66.png"
     },
     {
         "qid": 153,
@@ -1383,14 +1383,14 @@
         "option2": "Request to pass the vehicle from behind",
         "option3": "Request to stop the vehicle from front",
         "correct_answer": 1,
-        "image": ""
+        "image": "signal/img91.png"
     },
     {
         "qid": 155,
-        "question": "What is \"Tail-gating\" ?",
-        "option1": "Driving too close behind a vehicle in a dangerousmanner.",
+        "question": "What is \"Tail-gating\"?",
+        "option1": "Driving too close behind a vehicle in a dangerous manner.",
         "option2": "Keeping safe distance from the vehicle ahead regulating the speed proportionately.",
-        "option3": "Keeping a distance of atleast 7 metres from the vehicle ahead.",
+        "option3": "Keeping a distance of at least 7 metres from the vehicle ahead.",
         "correct_answer": 1,
         "image": ""
     },
@@ -1399,9 +1399,9 @@
         "question": "The signal represents",
         "option1": "Request to pass the vehicles coming from the left",
         "option2": "Request to pass the vehicle coming in opposite direction",
-        "option3": "Request to stop the vehicle from behind andfront",
+        "option3": "Request to stop the vehicle from behind and front",
         "correct_answer": 3,
-        "image": ""
+        "image": "signal/img92.png"
     },
     {
         "qid": 157,
@@ -1419,7 +1419,7 @@
         "option2": "Request to stop the vehicle from behind",
         "option3": "Request to pass the vehicle from front ",
         "correct_answer": 1,
-        "image": ""
+        "image": "signal/img93.png"
     },
     {
         "qid": 159,
@@ -1532,7 +1532,7 @@
     {
         "qid": 171,
         "question": "What is defensive driving ?",
-        "option1": "Driving cautiously anticipating violation of trafficrules and road signs both by drivers and other road users.",
+        "option1": "Driving cautiously anticipating violation of traffic rules and road signs both by drivers and other road users.",
         "option2": "Driving with sole aim of reaching the destination with no regards to road signs.",
         "option3": "Driving on the assumption that other road users will be cautious about their safety.",
         "correct_answer": 1,
@@ -1541,7 +1541,7 @@
     {
         "qid": 172,
         "question": "What is meant by stop line",
-        "option1": "A line with 5 centimeters width in white or yellowcolour at the approach of road junction or pedestrian crossing",
+        "option1": "A line with 5 centimeters width in white or yellow colour at the approach of road junction or pedestrian crossing",
         "option2": "A line drawn through the center of the road in yellow colour",
         "option3": "A broken white line through the center of the road ",
         "correct_answer": 1,
@@ -1605,7 +1605,7 @@
         "qid": 179,
         "question": "Projection of load upto one metre (100 cms) towards back is permitted",
         "option1": "in tractor",
-        "option2": "in stationwagon",
+        "option2": "in station wagon",
         "option3": "in goods carriages ",
         "correct_answer": 3,
         "image": ""
@@ -1774,7 +1774,7 @@
     },
     {
         "qid": 198,
-        "question": "Maximum permissible speed of a medium motorvehicle",
+        "question": "Maximum permissible speed of a medium motor vehicle",
         "option1": "80 Km/hr",
         "option2": "65 Km/hr",
         "option3": "70 Km/hr ",

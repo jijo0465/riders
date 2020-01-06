@@ -49,91 +49,107 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-        body: Container(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage('assets/background/rules.png')))),
-              Container(
-                child: PageView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: pageController,
-                  children: <Widget>[
-                    Instructions(language: language,),
-                    SignalsPage(
-                      language: language,
-                    ),
-                    LearnersMenu(language: language),
-                    RulesAct(language: language)
-                  ],
+        body: WillPopScope(
+          child: Container(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage('assets/background/rules.png')))),
+                Container(
+                  child: PageView(
+                    physics: NeverScrollableScrollPhysics(),
+                    controller: pageController,
+                    children: <Widget>[
+                      Instructions(
+                        language: language,
+                      ),
+                      SignalsPage(
+                        language: language,
+                      ),
+                      LearnersMenu(language: language),
+                      RulesAct(language: language)
+                    ],
+                  ),
                 ),
-              ),
-              // Container(
-              //   height: 70,
-              //   child: AppBar(
-              //     backgroundColor: Colors.deepPurple,
-              //     title: Text('Riders Driving School'),
-              //     actions: <Widget>[
-              //       IconButton(
-              //         icon: Icon(Icons.language),
-              //         onPressed: () {
-              //           setState(() {
-              //             selectLang = true;
-              //           });
-              //         },
-              //       ),
-              //       IconButton(
-              //         icon: Icon(Icons.info),
-              //         onPressed: () {},
-              //       )
-              //     ],
-              //   ),
-              // ),
-              Container(
-                alignment: Alignment.bottomCenter,
-                child: BottomNavBar(
-                  onChanged: (value) {
-                    setState(() {
-                      navSelected = value;
-                    });
-                    pageController.animateToPage(value - 1,
-                        curve: Curves.fastLinearToSlowEaseIn,
-                        duration: Duration(milliseconds: 300));
-                  },
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  child: BottomNavBar(
+                    selected: navSelected,
+                    onChanged: (value) {
+                      setState(() {
+                        navSelected = value;
+                      });
+                      pageController.animateToPage(value - 1,
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          duration: Duration(milliseconds: 300));
+                    },
+                  ),
                 ),
-              ),
-              selectLang
-                  ? GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectLang = false;
-                          infoOpen = false;
-                        });
-                      },
-                      child: Container(
-                          color: Colors.black.withOpacity(0.3),
-                          alignment: Alignment.center,
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: infoOpen?InfoPage(): SelectLang(
-                              currentLanguage: language,
-                              onSelected: (value) {
-                                setState(() {
-                                  language = value;
-                                  selectLang = false;
-                                });
-                              },
-                            ),
-                          )),
-                    )
-                  : Container()
-            ],
-          ),
+                selectLang
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectLang = false;
+                            infoOpen = false;
+                          });
+                        },
+                        child: Container(
+                            color: Colors.black.withOpacity(0.3),
+                            alignment: Alignment.center,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: infoOpen
+                                  ? WillPopScope(
+                                      child: InfoPage(),
+                                      onWillPop: () {
+                                        setState(() {
+                                          selectLang = false;
+                                          infoOpen = false;
+                                        });
+                                        return Future.value(false);
+                                      },
+                                    )
+                                  : WillPopScope(
+                                      child: SelectLang(
+                                        currentLanguage: language,
+                                        onSelected: (value) {
+                                          setState(() {
+                                            language = value;
+                                            selectLang = false;
+                                          });
+                                        },
+                                      ),
+                                      onWillPop: () {
+                                        setState(() {
+                                          selectLang = false;
+                                          infoOpen = false;
+                                        });
+                                        return Future.value(false);
+                                      }
+                                    ),
+                            )),
+                      )
+                    : Container()
+              ],
+            ),
+          ), onWillPop: () {
+            if(navSelected != 1){
+              setState(() {
+                navSelected = 1;
+              });
+                pageController.animateToPage(0,
+                          curve: Curves.linearToEaseOut,
+                          duration: Duration(milliseconds: 300));
+                return Future.value(false);
+            }else{
+              return Future.value(true);
+            }
+          },
         ));
   }
 }

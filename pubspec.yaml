@@ -16,6 +16,7 @@ dependencies:
   flutter_full_pdf_viewer: ^1.0.6
   path_provider: ^1.5.1
   provider: ^3.2.0
+  url_launcher: ^5.4.1
 
 dev_dependencies:
   flutter_test:
@@ -37,3 +38,6 @@ flutter:
       - assets/pdf/
       - assets/json/
       - assets/background/
+      - assets/riders_logo.png
+      - assets/riders_wall1.png
+      - assets/riders_wall2.png

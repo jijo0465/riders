@@ -23,7 +23,7 @@
     {
         "id": 4,
         "image": "signal/img11.png",
-        "description_mal": "സ്പീഡ് നിയന്ത്രണംഅവസാനിച്ചു",
+        "description_mal": "സ്പീഡ് നിയന്ത്രണം അവസാനിച്ചു",
         "description_eng": "End of speed restriction",
         "classification": 1
     },
@@ -604,14 +604,14 @@
     {
         "id": 87,
         "image": "signal/img87.png",
-        "description_mal": "2 മീറ്റർ മുകളിൽ വീതി ഉള്ള വാഹന ങ്ങൾ നിരോധിച്ചിരിക്കുന്നു",
+        "description_mal": "2 മീറ്റർ മുകളിൽ വീതി ഉള്ള വാഹനങ്ങൾ നിരോധിച്ചിരിക്കുന്നു",
         "description_eng": "No entry for vehicles having more than 2 meters width",
         "classification": 1
     },
     {
         "id": 88,
         "image": "signal/img88.png",
-        "description_mal": "3.5 മീറ്റർ മുകളിൽ പൊക്കം ഉള്ള വാഹന ങ്ങൾ നിരോധിച്ചിരിക്കുന്നു",
+        "description_mal": "3.5 മീറ്റർ മുകളിൽ പൊക്കം ഉള്ള വാഹനങ്ങൾ നിരോധിച്ചിരിക്കുന്നു",
         "description_eng": "Entry for vehicles having height not exceeding 3.5 meters",
         "classification": 1
     },
