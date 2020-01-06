@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +16,7 @@ class SignalsPage extends StatefulWidget {
 }
 
 class _SignalsPageState extends State<SignalsPage>
-    with TickerProviderStateMixin,AutomaticKeepAliveClientMixin<SignalsPage>{
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin<SignalsPage> {
   int selectedTab = 0;
   PageController pageController;
   TabController tabController;
@@ -26,7 +27,7 @@ class _SignalsPageState extends State<SignalsPage>
   List<Signal> otherSignals = List();
   bool isLoading = true;
   final key = GlobalKey<AnimatedListState>();
-  int signalNum=0;
+  int signalNum = 0;
   ScrollController listController;
 
   @override
@@ -38,18 +39,18 @@ class _SignalsPageState extends State<SignalsPage>
       signalString = string;
       Iterable l = json.decode(signalString);
       l.forEach((f) {
-        Signal signal=Signal.fromJson(f);
-        if(signal.classification==1){
+        Signal signal = Signal.fromJson(f);
+        if (signal.classification == 1) {
           mandadorySignals.add(signal);
-        }else if(signal.classification==2){
+        } else if (signal.classification == 2) {
           warnSignals.add(signal);
-        }else if(signal.classification==3){
+        } else if (signal.classification == 3) {
           infoSignals.add(signal);
-        }else if(signal.classification==4){
+        } else if (signal.classification == 4) {
           otherSignals.add(signal);
         }
       });
-listController=ScrollController(keepScrollOffset: true);
+      listController = ScrollController(keepScrollOffset: true);
       setState(() {
         signalNum = mandadorySignals.length;
         isLoading = false;
@@ -62,9 +63,13 @@ listController=ScrollController(keepScrollOffset: true);
     tabController.addListener(() {
       setState(() {
         selectedTab = tabController.index;
-        signalNum = selectedTab==0?mandadorySignals.length:selectedTab==1?warnSignals.length:selectedTab==2?infoSignals.length:otherSignals.length;
+        signalNum = selectedTab == 0
+            ? mandadorySignals.length
+            : selectedTab == 1
+                ? warnSignals.length
+                : selectedTab == 2 ? infoSignals.length : otherSignals.length;
       });
-      
+
       if (!tabController.indexIsChanging) {
         pageController.jumpToPage(
           selectedTab,
@@ -83,41 +88,42 @@ listController=ScrollController(keepScrollOffset: true);
             alignment: Alignment.topCenter,
             child: Column(
               children: <Widget>[
-                SizedBox(
-                  height: 65,
-                ),
+                // SizedBox(
+                //   height: 65,
+                // ),
                 Container(
+                  height: 45,
                   child: ShiftingTabBar(
                     labelFlex: 1.0,
                     labelStyle: TextStyle(
                       letterSpacing: 0.2,
                       color: Colors.black,
                     ),
-                    color: Colors.deepPurple.withOpacity(0.3),
+                    color: Colors.deepPurple.withOpacity(0.4),
                     controller: tabController,
                     forceUpperCase: false,
                     tabs: [
                       ShiftingTab(
                           icon: Icon(
                             Feather.circle,
-                            color: Colors.red,
-                            size: selectedTab != 0 ? 18 : 22,
+                            color: Colors.red[900],
+                            size: 17,
                           ),
                           text: 'Mandatory'),
                       ShiftingTab(
                           icon: Icon(Feather.triangle,
-                              color: Colors.red,
-                              size: selectedTab != 1 ? 18 : 22),
+                              color: Colors.red[900],
+                              size: 17),
                           text: 'Warnings'),
                       ShiftingTab(
                           icon: Icon(Feather.square,
-                              color: Colors.blue,
-                              size: selectedTab != 2 ? 18 : 22),
+                              color: Colors.blue[900],
+                              size: 17),
                           text: 'Informative'),
                       ShiftingTab(
-                          icon: Icon(FontAwesome.car,
-                              color: Colors.blue,
-                              size: selectedTab != 3 ? 18 : 22),
+                          icon: Icon(FontAwesome5.hand_paper,
+                              color: Colors.blue[900],
+                              size: 17),
                           text: 'Others'),
                     ],
                   ),
@@ -133,18 +139,16 @@ listController=ScrollController(keepScrollOffset: true);
                             duration: Duration(milliseconds: 300));
                       }
                     },
-                    itemBuilder: ((context,index){
+                    itemBuilder: ((context, index) {
                       return Container(
-                        color: index==0||index==1?Colors.redAccent:Colors.blueAccent,
                         child: ListView.builder(
                           controller: listController,
-                          padding: EdgeInsets.only(top: 4,bottom: 54),
+                          padding: EdgeInsets.only(top: 4, bottom: 54),
                           itemCount: signalNum,
                           itemBuilder: buildSignalCard,
                         ),
                       );
                     }),
-                    
                   ),
                 )
               ],
@@ -155,53 +159,70 @@ listController=ScrollController(keepScrollOffset: true);
   Widget buildSignalCard(BuildContext context, int index) {
     String img;
     String desc;
-    if(selectedTab==0){
-      img=mandadorySignals[index].image;
-      desc= widget.language=='en'? mandadorySignals[index].descriptionEnglish:mandadorySignals[index].descriptionMalayalam;
-    }else if(selectedTab==1){
-      img=warnSignals[index].image;
-      desc=widget.language=='en'? warnSignals[index].descriptionEnglish: warnSignals[index].descriptionMalayalam;
-    }
-    else if(selectedTab==2){
-      img=infoSignals[index].image;
-      desc=widget.language=='en'? infoSignals[index].descriptionEnglish:infoSignals[index].descriptionMalayalam;
-    }
-    else if(selectedTab==3){
-      img=otherSignals[index].image;
-      desc=widget.language=='en'? otherSignals[index].descriptionEnglish:otherSignals[index].descriptionMalayalam;
+    if (selectedTab == 0) {
+      img = mandadorySignals[index].image;
+      desc = widget.language == 'en'
+          ? mandadorySignals[index].descriptionEnglish
+          : mandadorySignals[index].descriptionMalayalam;
+    } else if (selectedTab == 1) {
+      img = warnSignals[index].image;
+      desc = widget.language == 'en'
+          ? warnSignals[index].descriptionEnglish
+          : warnSignals[index].descriptionMalayalam;
+    } else if (selectedTab == 2) {
+      img = infoSignals[index].image;
+      desc = widget.language == 'en'
+          ? infoSignals[index].descriptionEnglish
+          : infoSignals[index].descriptionMalayalam;
+    } else if (selectedTab == 3) {
+      img = otherSignals[index].image;
+      desc = widget.language == 'en'
+          ? otherSignals[index].descriptionEnglish
+          : otherSignals[index].descriptionMalayalam;
     }
     return Container(
-      child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(12),
-                topLeft: Radius.circular(12))),
-        elevation: 12,
-        color: Colors.white54,
-        child: Container(
-          child: Row(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  border: Border.all(color: Colors.black,width: 1)
-                ),
-                padding: EdgeInsets.all(8),
-                  child: Image.asset(
-                    'assets/$img',
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.fill,
-                  )),
-              Expanded(
-                  child:Container(
-                    padding: EdgeInsets.fromLTRB(20, 12, 12, 12),
-                    child: Text(desc,
-                      style: TextStyle(fontSize: 17),
-                    )))
-            ],
+      child: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+          child: Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(12),
+                    topLeft: Radius.circular(12))),
+            elevation: 0,
+            color: Colors.white.withOpacity(0.25),
+            child: Container(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              offset: Offset(3.0, 3.0),
+                            )
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(6)),
+                          border: Border.all(color: Colors.black, width: 1)),
+                      padding: EdgeInsets.all(8),
+                      child: Image.asset(
+                        'assets/$img',
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.fill,
+                      )),
+                  Expanded(
+                      child: Container(
+                          padding: EdgeInsets.fromLTRB(20, 12, 12, 12),
+                          child: Text(
+                            desc,
+                            style: TextStyle(fontSize: 17),
+                          )))
+                ],
+              ),
+            ),
           ),
         ),
       ),

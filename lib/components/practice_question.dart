@@ -38,7 +38,7 @@ class _PracticeQuestionState extends State<PracticeQuestion>
   @override
   void initState() {
     question = widget.question;
-    if(question.asset!=''){
+    if (question.asset != '') {
       setState(() {
         hasImage = true;
       });
@@ -57,80 +57,103 @@ class _PracticeQuestionState extends State<PracticeQuestion>
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-          child: Card(
-            color: Colors.deepPurple[200].withOpacity(0.5),
-            elevation: 6,
+      constraints:
+          BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.41),
+      child: Card(
+        color: Colors.deepPurple[200].withOpacity(0.5),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12))),
+        elevation: 6,
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
             child: Container(
               padding: EdgeInsets.only(top: 12, bottom: 12),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.only(left: 8, right: 4),
+                    padding: EdgeInsets.only(left: 8, right: 4, bottom: 12),
                     child: Text(
                       'Q${widget.questionNo} : ' + widget.question.question,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.8,
                           wordSpacing: 2),
                     ),
                   ),
-                  hasImage? Container(
-                margin: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  border: Border.all(color: Colors.black,width: 1)
-                ),
-                padding: EdgeInsets.all(8),
-                  child: Image.asset(
-                    'assets/${question.asset}',
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.fill,
-                  )):Container(),
-                  Container(
-                      child: ListView.builder(
-                    itemCount: 3,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Container(
-                        color: index == selectedValue
-                            ? widget.answeredValue != 0
-                                ? widget.answeredValue == widget.correctValue
-                                    ? Colors.greenAccent
-                                    : Colors.redAccent
-                                : Colors.amber.withOpacity(0.4)
-                            : index == answerValue-1?Colors.greenAccent: Colors.transparent,
-                        child: RadioListTile(
-                          
-                          activeColor: Colors.deepPurple,
-                          title: Text(index == 0
-                              ? widget.question.option1
-                              : index == 1
-                                  ? widget.question.option2
-                                  : widget.question.option3),
-                          onChanged: (int value) {
-                            if(widget.answeredValue==0){
-                              setState(() {
-                                selectedValue = value;
-                                answerValue = widget.question.correctAnswer;
-                              });
-                              widget.onOptionChoosed(value + 1);
-                              }
-                            
+                  Row(
+                    children: <Widget>[
+                      hasImage
+                          ? Flexible(
+                              flex: 2,
+                              child: Container(
+                                  margin: EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
+                                      border: Border.all(
+                                          color: Colors.black, width: 1)),
+                                  padding: EdgeInsets.all(8),
+                                  child: Image.asset(
+                                    'assets/${question.asset}',
+                                    width: 80,
+                                    height: 80,
+                                    fit: BoxFit.fill,
+                                  )),
+                            )
+                          : Container(),
+                      Flexible(
+                        flex: 5,
+                        child: Container(
+                            child: ListView.builder(
+                          itemCount: 3,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              color: index == selectedValue
+                                  ? widget.answeredValue != 0
+                                      ? widget.answeredValue ==
+                                              widget.correctValue
+                                          ? Colors.greenAccent
+                                          : Colors.redAccent
+                                      : Colors.amber.withOpacity(0.4)
+                                  : index == answerValue - 1
+                                      ? Colors.greenAccent
+                                      : Colors.transparent,
+                              child: Container(
+                                child: RadioListTile(
+                                  dense: true,
+                                  activeColor: Colors.deepPurple,
+                                  title: Text(index == 0
+                                      ? widget.question.option1
+                                      : index == 1
+                                          ? widget.question.option2
+                                          : widget.question.option3),
+                                  onChanged: (int value) {
+                                    if (widget.answeredValue == 0) {
+                                      setState(() {
+                                        selectedValue = value;
+                                        answerValue =
+                                            widget.question.correctAnswer;
+                                      });
+                                      widget.onOptionChoosed(value + 1);
+                                    }
+                                  },
+                                  groupValue: selectedValue,
+                                  value: index,
+                                ),
+                              ),
+                            );
                           },
-                          groupValue: selectedValue,
-                          value: index,
-                        ),
-                      );
-                    },
-                  )),
+                        )),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

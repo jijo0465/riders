@@ -55,7 +55,7 @@ class _PracticePageState extends State<PracticePage> {
           currentQuestion = questions[0];
         });
       });
-    }else if (widget.language == 'en') {
+    } else if (widget.language == 'en') {
       rootBundle.loadString('assets/json/questions_en.json').then((string) {
         questionString = string;
         Iterable l = json.decode(questionString);
@@ -80,7 +80,7 @@ class _PracticePageState extends State<PracticePage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Practice Test'),
+          title: Text(widget.language == 'en' ? 'Practice Test' : 'പരിശീലനം'),
         ),
         body: !isLoading
             ? Stack(
@@ -89,12 +89,10 @@ class _PracticePageState extends State<PracticePage> {
                     color: Colors.white30,
                     child: Column(
                       children: <Widget>[
-                        SizedBox(
-                          height: 50,
-                        ),
                         Expanded(
                           child: FlareActor(
                             'assets/Teddy.flr',
+                            fit: BoxFit.contain,
                             animation:
                                 isHappy ? 'success' : isSad ? 'fail' : 'idle',
                             controller: flareController,
@@ -106,6 +104,9 @@ class _PracticePageState extends State<PracticePage> {
                             },
                           ),
                         ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                        )
                       ],
                     ),
                   ),
@@ -115,36 +116,81 @@ class _PracticePageState extends State<PracticePage> {
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Text(
-                                  'Correct Answers : ${Exam().correctAnswers.toString()}'),
-                              Container(
-                                child: Card(
-                                  elevation: 8,
-                                  color: Colors.amber.withOpacity(0.2),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(100000))),
-                                  child: Text(
-                                      '${currentPage + 1}/${questions.length}'),
+                          Container(
+                            width: MediaQuery.of(context).size.width*0.5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                              color: Colors.deepPurple[200].withOpacity(0.6),
+                            ),
+                            
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.green[600],
+                                      borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(12),
+                                              topLeft:Radius.circular(12))
+                                    ),
+                                    width: 55,
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      Exam().correctAnswers.toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                  'Wrong Answers : ${(Exam().totalAnswered - Exam().correctAnswers).toString()}')
-                            ],
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 40,
+                                      child: Text(
+                                        '${currentPage + 1}/${questions.length}',
+                                        style: TextStyle(fontSize: 17,fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Container(
+                                    width: 55,
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.red[600],
+                                      borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(12),
+                                              topRight:Radius.circular(12))
+                                    ),
+                                    child: Text(
+                                      (Exam().totalAnswered -
+                                              Exam().correctAnswers)
+                                          .toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 90),
                     child: NotificationListener(
                       child: PageView.builder(
-                        allowImplicitScrolling: true,
-                        physics: BouncingScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics (),
                         pageSnapping: false,
                         onPageChanged: (page) {
                           setState(() {
@@ -165,8 +211,13 @@ class _PracticePageState extends State<PracticePage> {
                             }
                           }
                           return Container(
+                            padding: EdgeInsets.only(bottom: 72),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
+                                SizedBox(
+                                  height: 150,
+                                ),
                                 Container(
                                   child: PracticeQuestion(
                                       question: currentQuestion,
@@ -175,14 +226,10 @@ class _PracticePageState extends State<PracticePage> {
                                           currentQuestion.correctAnswer,
                                       questionNo: index + 1,
                                       onOptionChoosed: (int choice) {
-                                        print(selectedOption);
                                         selectedOption = choice;
                                         answeredCallback();
                                       }),
                                 ),
-                                SizedBox(
-                                  height: 80,
-                                )
                               ],
                             ),
                           );
@@ -198,9 +245,9 @@ class _PracticePageState extends State<PracticePage> {
                             Future.delayed(const Duration(milliseconds: 500),
                                 () {
                               _pageController.animateToPage(
-                                  _pageController.page.ceil(),
-                                  duration: Duration(milliseconds: 200),
-                                  curve: Curves.fastLinearToSlowEaseIn);
+                                  _pageController.page.round(),
+                                  duration: Duration(milliseconds: 300),
+                                  curve: Curves.linear);
                               shouldScroll = false;
                             });
                           }
@@ -211,7 +258,7 @@ class _PracticePageState extends State<PracticePage> {
                     ),
                   ),
                   Positioned(
-                    bottom: 30,
+                    bottom: 14,
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
@@ -323,7 +370,7 @@ class _PracticePageState extends State<PracticePage> {
         Exam().wrongAnswered(answeredQuestions);
       }
     }
-    Future.delayed(const Duration(milliseconds: 900), () {
+    Future.delayed(const Duration(seconds: 2), () {
       // _pageController.animateToPage(currentPage + 1,
       //     duration: Duration(milliseconds: 300), curve: Curves.linearToEaseOut);
       animateToPage(currentPage + 1);

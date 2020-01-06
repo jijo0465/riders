@@ -20,7 +20,7 @@ class Question {
   Map<String, dynamic> toMap() {
     return {
       'id': this.id,
-      'qusetion': this.question,
+      'question': this.question,
       'option1': this.option1,
       'option2': this.option2,
       'option3': this.option3,

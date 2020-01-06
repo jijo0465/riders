@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:riders/models/exam.dart';
 import 'package:riders/models/question.dart';
 
 class QuestionCards extends StatefulWidget {
@@ -40,47 +38,52 @@ class _QuestionCardsState extends State<QuestionCards>
         hasImage = true;
       });
     }
-    print(hasImage);
-    print(widget.question.asset);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(widget.question.asset);
     return Container(
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(20)),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
           child: Card(
-            color: Colors.deepPurple[200].withOpacity(0.5),
-            elevation: 6,
+            color: Colors.deepPurple[50].withOpacity(0.8),
+            elevation: 3,
             child: Container(
               padding: EdgeInsets.only(top: 12, bottom: 12),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.only(left: 8, right: 4),
                     child: Text(
                       'Q${widget.questionNo} : ' + widget.question.question,
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.8,
                           wordSpacing: 2),
                     ),
                   ),
+                  SizedBox(height: 12,),
                   hasImage?Container(
-                    child: Image.asset(
+                margin: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(6)),
+                  border: Border.all(color: Colors.black,width: 1)
+                ),
+                padding: EdgeInsets.all(8),
+                  child: Image.asset(
                     'assets/${widget.question.asset}',
-                    width: 80,
-                    height: 80,
+                    width: 75,
+                    height: 75,
                     fit: BoxFit.fill,
-                  )
-                  ):Container(),
-
-                  Container(
+                  )):Container(),
+                  SizedBox(height: 8,),
+                  Expanded(
                       child: ListView.builder(
                     itemCount: 3,
                     shrinkWrap: true,
@@ -95,6 +98,7 @@ class _QuestionCardsState extends State<QuestionCards>
                                     : Colors.amber.withOpacity(0.4)
                             : Colors.transparent,
                         child: RadioListTile(
+                          dense: true,
                           activeColor: Colors.deepPurple,
                           title: Text(index == 0
                               ? widget.question.option1
