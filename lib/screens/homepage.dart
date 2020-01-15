@@ -21,7 +21,8 @@ class _MyHomePageState extends State<MyHomePage> {
   PageController pageController = PageController();
   bool selectLang = false;
   String language = 'en';
-  bool infoOpen = false;
+  int trackInfoState = 0;
+  PageController trackPageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               },
             ),
-            IconButton(
-              icon: Icon(Icons.info),
-              onPressed: () {
-                setState(() {
-                  infoOpen = true;
-                  selectLang = true;
-                });
-              },
-            )
           ],
         ),
         body: WillPopScope(
@@ -67,12 +59,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: <Widget>[
                       Instructions(
                         language: language,
+                        trackPageController: trackPageController,
+                        trackInfoStateChanged: (value) {
+                          trackInfoState = value;
+                        },
                       ),
                       SignalsPage(
                         language: language,
                       ),
                       LearnersMenu(language: language),
-                      RulesAct(language: language)
+                      RulesAct(language: language),
+                      InfoPage()
                     ],
                   ),
                 ),
@@ -81,12 +78,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: BottomNavBar(
                     selected: navSelected,
                     onChanged: (value) {
+                      if (value == 1 && trackInfoState == 1) {
+                        trackPageController.jumpToPage(0);
+                      }
                       setState(() {
                         navSelected = value;
                       });
-                      pageController.animateToPage(value - 1,
-                          curve: Curves.fastLinearToSlowEaseIn,
-                          duration: Duration(milliseconds: 300));
+                      pageController.jumpToPage(value - 1);
                     },
                   ),
                 ),
@@ -95,7 +93,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         onTap: () {
                           setState(() {
                             selectLang = false;
-                            infoOpen = false;
                           });
                         },
                         child: Container(
@@ -103,50 +100,37 @@ class _MyHomePageState extends State<MyHomePage> {
                             alignment: Alignment.center,
                             child: GestureDetector(
                               onTap: () {},
-                              child: infoOpen
-                                  ? WillPopScope(
-                                      child: InfoPage(),
-                                      onWillPop: () {
-                                        setState(() {
-                                          selectLang = false;
-                                          infoOpen = false;
-                                        });
-                                        return Future.value(false);
-                                      },
-                                    )
-                                  : WillPopScope(
-                                      child: SelectLang(
-                                        currentLanguage: language,
-                                        onSelected: (value) {
-                                          setState(() {
-                                            language = value;
-                                            selectLang = false;
-                                          });
-                                        },
-                                      ),
-                                      onWillPop: () {
-                                        setState(() {
-                                          selectLang = false;
-                                          infoOpen = false;
-                                        });
-                                        return Future.value(false);
-                                      }
-                                    ),
+                              child: SelectLang(
+                                currentLanguage: language,
+                                onSelected: (value) {
+                                  setState(() {
+                                    language = value;
+                                    selectLang = false;
+                                  });
+                                },
+                              ),
                             )),
                       )
                     : Container()
               ],
             ),
-          ), onWillPop: () {
-            if(navSelected != 1){
+          ),
+          onWillPop: () {
+            if (selectLang) {
+              setState(() {
+                selectLang = false;
+              });
+              return Future.value(false);
+            } else if (navSelected != 1) {
+              if (trackInfoState == 1) {
+                trackPageController.jumpToPage(0);
+              }
               setState(() {
                 navSelected = 1;
               });
-                pageController.animateToPage(0,
-                          curve: Curves.linearToEaseOut,
-                          duration: Duration(milliseconds: 300));
-                return Future.value(false);
-            }else{
+              pageController.jumpToPage(0);
+              return Future.value(false);
+            } else {
               return Future.value(true);
             }
           },

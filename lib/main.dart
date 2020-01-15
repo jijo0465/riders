@@ -1,3 +1,4 @@
+import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,11 +11,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Riders',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: SplashScreen.navigate(
+        name: 'assets/splash.flr',
+        fit: BoxFit.fill,
+        next: (context) => MyHomePage(title: 'Riders'),
+        until: () => Future.delayed(Duration(seconds: 2,milliseconds: 300)),
+        startAnimation: 'splash',
+      ),
     );
   }
 }

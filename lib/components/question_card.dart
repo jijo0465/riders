@@ -33,7 +33,7 @@ class _QuestionCardsState extends State<QuestionCards>
 
   @override
   void initState() {
-    if(widget.question.asset!=''){
+    if (widget.question.asset != '') {
       setState(() {
         hasImage = true;
       });
@@ -61,37 +61,44 @@ class _QuestionCardsState extends State<QuestionCards>
                     child: Text(
                       'Q${widget.questionNo} : ' + widget.question.question,
                       style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.8,
                           wordSpacing: 2),
                     ),
                   ),
-                  SizedBox(height: 12,),
-                  hasImage?Container(
-                margin: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  border: Border.all(color: Colors.black,width: 1)
-                ),
-                padding: EdgeInsets.all(8),
-                  child: Image.asset(
-                    'assets/${widget.question.asset}',
-                    width: 75,
-                    height: 75,
-                    fit: BoxFit.fill,
-                  )):Container(),
-                  SizedBox(height: 8,),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  hasImage
+                      ? Container(
+                          margin: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6)),
+                              border:
+                                  Border.all(color: Colors.black, width: 1)),
+                          padding: EdgeInsets.all(8),
+                          child: Image.asset(
+                            'assets/${widget.question.asset}',
+                            width: 75,
+                            height: 75,
+                            fit: BoxFit.fill,
+                          ))
+                      : Container(),
+                  SizedBox(
+                    height: 8,
+                  ),
                   Expanded(
                       child: ListView.builder(
                     itemCount: 3,
-                    shrinkWrap: true,
+                    // shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       return Container(
                         color: index == selectedValue
-                            ?  widget.isCorrect
+                            ? widget.isCorrect
                                 ? Colors.greenAccent.withOpacity(0.4)
                                 : widget.isWrong
                                     ? Colors.redAccent.withOpacity(0.4)
@@ -100,11 +107,14 @@ class _QuestionCardsState extends State<QuestionCards>
                         child: RadioListTile(
                           dense: true,
                           activeColor: Colors.deepPurple,
-                          title: Text(index == 0
-                              ? widget.question.option1
-                              : index == 1
-                                  ? widget.question.option2
-                                  : widget.question.option3),
+                          title: Text(
+                            index == 0
+                                ? widget.question.option1
+                                : index == 1
+                                    ? widget.question.option2
+                                    : widget.question.option3,
+                            style: TextStyle(fontSize: 14),
+                          ),
                           onChanged: (int value) {
                             setState(() {
                               selectedValue = value;

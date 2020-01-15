@@ -1,4 +1,4 @@
-package com.example.riders
+package com.siphlo.riders
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

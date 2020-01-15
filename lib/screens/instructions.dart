@@ -7,7 +7,9 @@ import 'package:riders/components/instruction.dart';
 
 class Instructions extends StatefulWidget {
   final String language;
-  const Instructions({Key key, @required this.language}) : super(key: key);
+  final ValueChanged<int> trackInfoStateChanged;
+  final PageController trackPageController;
+  const Instructions({Key key, @required this.language, this.trackInfoStateChanged, this.trackPageController}) : super(key: key);
 
   @override
   _InstructionsState createState() => _InstructionsState();
@@ -15,7 +17,7 @@ class Instructions extends StatefulWidget {
 
 class _InstructionsState extends State<Instructions>
     with AutomaticKeepAliveClientMixin<Instructions> {
-  PageController _pageController = PageController();
+  // PageController widget.trackPageController = PageController();
   // PageController tabController = PageController();
   int _selectedAnimation = 1;
   Timer timer;
@@ -31,7 +33,10 @@ class _InstructionsState extends State<Instructions>
   @override
   Widget build(BuildContext context) {
     return PageView(
-      controller: _pageController,
+      controller: widget.trackPageController,
+      onPageChanged: (value){
+        widget.trackInfoStateChanged(value);
+      },
       pageSnapping: true,
       children: <Widget>[
         Stack(
@@ -42,14 +47,16 @@ class _InstructionsState extends State<Instructions>
                   ? CrossFadeState.showFirst
                   : CrossFadeState.showSecond,
               duration: Duration(milliseconds: 800),
-              secondChild: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: FlareActor(
-                    'assets/eight.flr',
-                    fit: BoxFit.fitHeight,
-                    animation: 'eight',
-                  )),
+              secondChild: Center(
+                child: Container(
+                    width: MediaQuery.of(context).size.width*0.9,
+                    height: MediaQuery.of(context).size.height*0.82,
+                    child: FlareActor(
+                      'assets/eight.flr',
+                      fit: BoxFit.fill,
+                      animation: 'eight',
+                    )),
+              ),
               firstChild: Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -85,7 +92,7 @@ class _InstructionsState extends State<Instructions>
               right: 0,
               child: GestureDetector(
                 onTap: () {
-                  _pageController.animateToPage(2,
+                  widget.trackPageController.animateToPage(1,
                       curve: Curves.easeInCubic,
                       duration: Duration(milliseconds: 400));
                 },
@@ -127,7 +134,7 @@ class _InstructionsState extends State<Instructions>
               category: _selectedAnimation,
             ),
             onWillPop: () {
-              _pageController.animateToPage(0,curve:Curves.linearToEaseOut,duration:Duration(milliseconds: 300));
+              widget.trackPageController.animateToPage(0,curve:Curves.linearToEaseOut,duration:Duration(milliseconds: 300));
               return Future.value(false);
             },
           ),

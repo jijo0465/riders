@@ -25,22 +25,15 @@ class _InfoPageState extends State<InfoPage> {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.7,
+      filter: ImageFilter.blur(sigmaX: 100,sigmaY: 100),
+          child: Container(
+        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.only(left: 16, right: 16),
-        decoration: BoxDecoration(
-            color: Colors.deepPurple[50],
-            borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Column(
           children: <Widget>[
             Container(
               height: MediaQuery.of(context).size.height * 0.2,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12)),
                   image: DecorationImage(
                       image: AssetImage('assets/riders_wall2.png'),
                       fit: BoxFit.fill)),
@@ -48,9 +41,10 @@ class _InfoPageState extends State<InfoPage> {
             Container(
                 padding: EdgeInsets.all(8),
                 child: Text(
-                  'Riders Driving School has been successfully educating new drivers in Trivandrum since 2015. Our school strives to provide quality education and continued customer satisfaction at affordable prices.',
+                  'Riders Driving School has been successfully educating new drivers in Trivandrum since 2015. We strives to provide quality education and continued customer satisfaction.',
+                  textWidthBasis: TextWidthBasis.parent,
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 15,
                   ),
                 )),
             // Divider(
@@ -61,7 +55,7 @@ class _InfoPageState extends State<InfoPage> {
                 child: Text(
                   'Reach Us',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 16.5,
                   ),
                 )),
             Container(
@@ -84,9 +78,7 @@ class _InfoPageState extends State<InfoPage> {
                         child: Container(
                           child: Text(
                             'Canara bank building, Kunnathukal Jn\nThiruvananthapuram, Kerala - 695504',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
+                            
                           ),
                         ),
                       ),
@@ -125,9 +117,6 @@ class _InfoPageState extends State<InfoPage> {
                         child: Container(
                           child: Text(
                             '+ 91 - 9497187486',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
                           ),
                         ),
                       ),
@@ -163,9 +152,6 @@ class _InfoPageState extends State<InfoPage> {
                         child: Container(
                           child: Text(
                             '+91 - 9526319287',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
                           ),
                         ),
                       ),
@@ -201,9 +187,6 @@ class _InfoPageState extends State<InfoPage> {
                         child: Container(
                           child: Text(
                             'riders.mds@gmail.com',
-                            style: TextStyle(
-                              fontSize: 12,
-                            ),
                           ),
                         ),
                       ),
@@ -237,7 +220,7 @@ class _InfoPageState extends State<InfoPage> {
                     },
                   ),
                   IconButton(
-                    icon: Icon(FontAwesome5Brands.google),iconSize: 19,
+                    icon: Icon(FontAwesome5Brands.google),iconSize: 21,
                     onPressed: () {
                       _launchURL('https://www.google.com/search?rlz=1C1CHBF_enIN805IN805&sxsrf=ACYBGNTtOv_L0JJSFf4hSs-0-F2GPrTP2w%3A1578311572744&ei=lB8TXriOLd2Q4-EP2N-juAE&q=Riders+motor+driving+school+kunnathukal%2C+Trivandrum%2C+Kerala&oq=riders+motor+d&gs_l=psy-ab.1.3.0i22i30l3j38.311790.331767..335143...7.0..0.153.1557.8j7......0....1..gws-wiz.......35i39j0j0i20i263j0i10j0i22i10i30j0i273.knjUiBFk37A#lrd=0x3b05acee4bed057b:0x54c9aa75d7fe6392,3,,,');
                     },
@@ -254,7 +237,8 @@ class _InfoPageState extends State<InfoPage> {
                   style:TextStyle(fontSize: 12)
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 60,)
           ],
         ),
       ),

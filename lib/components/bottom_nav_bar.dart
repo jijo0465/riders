@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -29,16 +28,14 @@ class BottomNavBar extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      height: 50,
-                      child: GestureDetector(
-                        onTap: () {
-                          this.onChanged(1);
-                          // setState(() {
-                          //   selected = 1;
-                          // });
-                        },
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        this.onChanged(1);
+                      },
+                      child: Container(
+                        alignment: Alignment.topCenter,
+                        height: 50,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -65,15 +62,13 @@ class BottomNavBar extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      height: 50,
-                      child: GestureDetector(
-                        onTap: () {
-                          this.onChanged(2);
-                          // setState(() {
-                          //   selected = 2;
-                          // });
-                        },
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        this.onChanged(2);
+                      },
+                      child: Container(
+                        height: 50,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -100,15 +95,13 @@ class BottomNavBar extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      height: 50,
-                      child: GestureDetector(
-                        onTap: () {
-                          this.onChanged(3);
-                          // setState(() {
-                          //   selected = 3;
-                          // });
-                        },
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        this.onChanged(3);
+                      },
+                      child: Container(
+                        height: 50,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -144,15 +137,13 @@ class BottomNavBar extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      height: 50,
-                      child: GestureDetector(
-                        onTap: () {
-                          this.onChanged(4);
-                          // setState(() {
-                          //   selected = 4;
-                          // });
-                        },
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        this.onChanged(4);
+                      },
+                      child: Container(
+                        height: 50,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -164,9 +155,42 @@ class BottomNavBar extends StatelessWidget {
                                   : Colors.black,
                             ),
                             Text(
-                              'Documents',
+                              'Docs',
                               style: TextStyle(
                                 color: selected == 4
+                                    ? Colors.deepPurple
+                                    : Colors.black,
+                                    fontSize: 13
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        this.onChanged(5);
+                      },
+                      child: Container(
+                        height: 50,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Icon(
+                              Feather.info,
+                              size: 24,
+                              color: selected == 5
+                                  ? Colors.deepPurple
+                                  : Colors.black,
+                            ),
+                            Text(
+                              'About',
+                              style: TextStyle(
+                                color: selected == 5
                                     ? Colors.deepPurple
                                     : Colors.black,
                                     fontSize: 13

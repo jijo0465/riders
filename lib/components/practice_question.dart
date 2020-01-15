@@ -78,7 +78,7 @@ class _PracticeQuestionState extends State<PracticeQuestion>
                     child: Text(
                       'Q${widget.questionNo} : ' + widget.question.question,
                       style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.8,
                           wordSpacing: 2),
@@ -88,7 +88,7 @@ class _PracticeQuestionState extends State<PracticeQuestion>
                     children: <Widget>[
                       hasImage
                           ? Flexible(
-                              flex: 2,
+                            flex: 1,
                               child: Container(
                                   margin: EdgeInsets.all(8),
                                   decoration: BoxDecoration(
@@ -100,18 +100,18 @@ class _PracticeQuestionState extends State<PracticeQuestion>
                                   padding: EdgeInsets.all(8),
                                   child: Image.asset(
                                     'assets/${question.asset}',
-                                    width: 80,
-                                    height: 80,
+                                    width: 75,
+                                    height: 75,
                                     fit: BoxFit.fill,
                                   )),
                             )
                           : Container(),
-                      Flexible(
-                        flex: 5,
+                      Expanded(
+                        flex: 2,
                         child: Container(
                             child: ListView.builder(
-                          itemCount: 3,
                           shrinkWrap: true,
+                          itemCount: 3,
                           physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Container(
@@ -119,11 +119,11 @@ class _PracticeQuestionState extends State<PracticeQuestion>
                                   ? widget.answeredValue != 0
                                       ? widget.answeredValue ==
                                               widget.correctValue
-                                          ? Colors.greenAccent
-                                          : Colors.redAccent
+                                          ? Colors.greenAccent.withOpacity(0.7)
+                                          : Colors.redAccent.withOpacity(0.7)
                                       : Colors.amber.withOpacity(0.4)
                                   : index == answerValue - 1
-                                      ? Colors.greenAccent
+                                      ? Colors.greenAccent.withOpacity(0.7)
                                       : Colors.transparent,
                               child: Container(
                                 child: RadioListTile(
@@ -133,7 +133,7 @@ class _PracticeQuestionState extends State<PracticeQuestion>
                                       ? widget.question.option1
                                       : index == 1
                                           ? widget.question.option2
-                                          : widget.question.option3),
+                                          : widget.question.option3,style: TextStyle(fontSize: 14),),
                                   onChanged: (int value) {
                                     if (widget.answeredValue == 0) {
                                       setState(() {

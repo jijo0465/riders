@@ -37,6 +37,7 @@ class _PracticePageState extends State<PracticePage> {
   bool isSad = false;
   int _index = 0;
   bool shouldScroll;
+  int selectedQuestion;
 
   @override
   void initState() {
@@ -110,87 +111,10 @@ class _PracticePageState extends State<PracticePage> {
                       ],
                     ),
                   ),
-                  Positioned(
-                    top: 12,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(12)),
-                              color: Colors.deepPurple[200].withOpacity(0.6),
-                            ),
-                            
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.green[600],
-                                      borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(12),
-                                              topLeft:Radius.circular(12))
-                                    ),
-                                    width: 55,
-                                    height: 40,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      Exam().correctAnswers.toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      height: 40,
-                                      child: Text(
-                                        '${currentPage + 1}/${questions.length}',
-                                        style: TextStyle(fontSize: 17,fontWeight: FontWeight.w600),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Container(
-                                    width: 55,
-                                    height: 40,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      color: Colors.red[600],
-                                      borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(12),
-                                              topRight:Radius.circular(12))
-                                    ),
-                                    child: Text(
-                                      (Exam().totalAnswered -
-                                              Exam().correctAnswers)
-                                          .toString(),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   Container(
                     child: NotificationListener(
                       child: PageView.builder(
-                        physics: const AlwaysScrollableScrollPhysics (),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         pageSnapping: false,
                         onPageChanged: (page) {
                           setState(() {
@@ -239,14 +163,18 @@ class _PracticePageState extends State<PracticePage> {
                         try {
                           if (notification is ScrollStartNotification) {
                             shouldScroll = true;
+                            setState(() {
+                              isAnswerRight = false;
+                              isAnswerWrong = false;
+                            });
                           }
                           if (notification is ScrollEndNotification &&
                               shouldScroll) {
-                            Future.delayed(const Duration(milliseconds: 500),
+                            Future.delayed(const Duration(milliseconds: 200),
                                 () {
                               _pageController.animateToPage(
                                   _pageController.page.round(),
-                                  duration: Duration(milliseconds: 300),
+                                  duration: Duration(milliseconds: 200),
                                   curve: Curves.linear);
                               shouldScroll = false;
                             });
@@ -255,6 +183,207 @@ class _PracticePageState extends State<PracticePage> {
 
                         return true;
                       },
+                    ),
+                  ),
+                  Positioned(
+                    top: 12,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.55,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              color: Colors.deepPurple[200].withOpacity(0.6),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.green[600],
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(12),
+                                            topLeft: Radius.circular(12))),
+                                    width: 55,
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      Exam().correctAnswers.toString(),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          builder: (BuildContext context) {
+                                            return Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.3,
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                    height: 30,
+                                                    child: Stack(
+                                                      children: <Widget>[
+                                                        Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    4),
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Text(
+                                                              'Jump to',
+                                                              style: TextStyle(
+                                                                  fontSize: 16),
+                                                            )),
+                                                        Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  right: 12),
+                                                          alignment: Alignment
+                                                              .centerRight,
+                                                          child:
+                                                              GestureDetector(
+                                                            onTap: () async {
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Future.delayed(Duration(
+                                                                      milliseconds:
+                                                                          300))
+                                                                  .then(
+                                                                      (onValue) {
+                                                                _pageController.animateToPage(
+                                                                    selectedQuestion -
+                                                                        1,
+                                                                    curve: Curves
+                                                                        .linear,
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            300));
+                                                              });
+                                                            },
+                                                            child: Text(
+                                                              'Done',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .blueAccent,
+                                                                  fontSize: 14),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: CupertinoPicker(
+                                                      scrollController:
+                                                          FixedExtentScrollController(
+                                                              initialItem:
+                                                                  currentPage +
+                                                                      1),
+                                                      children: <Widget>[
+                                                        for (int i = 0;
+                                                            i <
+                                                                questions
+                                                                    .length;
+                                                            i++)
+                                                          Text('Q : $i')
+                                                      ],
+                                                      itemExtent: 30,
+                                                      onSelectedItemChanged:
+                                                          (int value) {
+                                                        selectedQuestion =
+                                                            value;
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          context: context);
+                                    },
+                                    child: Container(
+                                      padding:
+                                          EdgeInsets.only(left: 4, right: 4),
+                                      alignment: Alignment.center,
+                                      child: Container(
+                                        height: 40,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Expanded(
+                                              flex: 1,
+                                              child: Container(
+                                                height: 22,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                        bottom: BorderSide(
+                                                  color: Colors.blueAccent,
+                                                ))),
+                                                child: Text(
+                                                  '${currentPage + 1}',
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                                flex: 1,
+                                                child: Text(
+                                                  ' / ${questions.length}',style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  child: Container(
+                                    width: 55,
+                                    height: 40,
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                        color: Colors.red[600],
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(12),
+                                            topRight: Radius.circular(12))),
+                                    child: Text(
+                                      (Exam().totalAnswered -
+                                              Exam().correctAnswers)
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Positioned(
@@ -272,32 +401,8 @@ class _PracticePageState extends State<PracticePage> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 RaisedButton(
-                                  color: Colors.redAccent,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Feather.log_out,
-                                        color: Colors.white70,
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                      Text(
-                                        'Back to Menu',
-                                        style: TextStyle(color: Colors.white70),
-                                      ),
-                                    ],
-                                  ),
-                                  onPressed: () {
-                                    Exam().clearData();
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                RaisedButton(
-                                  color: Colors.redAccent,
+                                  color: Colors.red[400].withOpacity(0.95),
+                                  elevation: 8,
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5))),
@@ -312,7 +417,7 @@ class _PracticePageState extends State<PracticePage> {
                                       ),
                                       Text(
                                         'End & Review',
-                                        style: TextStyle(color: Colors.white70),
+                                        style: TextStyle(color: Colors.white.withOpacity(0.9)),
                                       ),
                                     ],
                                   ),
@@ -370,7 +475,7 @@ class _PracticePageState extends State<PracticePage> {
         Exam().wrongAnswered(answeredQuestions);
       }
     }
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       // _pageController.animateToPage(currentPage + 1,
       //     duration: Duration(milliseconds: 300), curve: Curves.linearToEaseOut);
       animateToPage(currentPage + 1);

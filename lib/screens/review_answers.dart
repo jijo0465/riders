@@ -12,6 +12,10 @@ class ReviewAnswers extends StatelessWidget {
           title: Text('Review'),
         ),
         body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(image: AssetImage('assets/background/rules.png'),fit: BoxFit.fill),
+            
+          ),
           padding: EdgeInsets.all(2),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -78,7 +82,7 @@ class ReviewAnswers extends StatelessWidget {
               }
               return Container(
                 child: Card(
-                  color: isCorrect?Colors.green[200].withOpacity(0.9):Colors.red[200].withOpacity(0.9),
+                  color: isCorrect?Colors.green[100]:Colors.red[100],
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(12),
